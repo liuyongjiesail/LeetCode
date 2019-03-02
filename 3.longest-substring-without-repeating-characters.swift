@@ -50,7 +50,9 @@
 
  /*
 
- 100ms
+ 第一种：
+
+ 100ms  O(n^2)
 
  解法思路：
  1. 初始化空的字符串 tempString，和长度为0的longest
@@ -58,6 +60,7 @@
  3. 拼接之前判断tempString中是否包含目前遍历到的字符，如果包含，找到该字符在tempString的位置，截取tempString后的字符串作赋值为tempString
 
  */
+ /*
 class Solution {
     func lengthOfLongestSubstring(_ s: String) -> Int {
 
@@ -78,3 +81,45 @@ class Solution {
         return longest;
     }
 }
+*/
+
+/* 
+第二种：
+
+40ms  O(n)
+
+优化了时间提升了1.5倍
+
+思路：
+
+这里就遍历了一遍，上面那个方法相当于遍历两遍
+
+主要优化判断字符串包含函数处理。
+通过一个哈希表 key 为 char,  value 为 index 位置
+
+*/
+
+class Solution {
+    func lengthOfLongestSubstring(_ s: String) -> Int {
+        
+        var longest = 0
+        var tempDictionary = [Character:Int]()
+        var moveIndex = 0;
+        let charArray = Array(s)
+        
+        for index in 0..<charArray.count {
+            let tempChar = charArray[index]
+            let tempIndex = tempDictionary[tempChar]
+            if (tempIndex != nil) {
+                if tempIndex! >= moveIndex {
+                    moveIndex = tempIndex! + 1;
+                }
+            }
+            tempDictionary[tempChar] = index;
+            longest = max(index - moveIndex + 1, longest)
+            
+        }
+        return longest;
+    }
+}
+
