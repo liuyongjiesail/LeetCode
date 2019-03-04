@@ -37,9 +37,32 @@
  * 
  * 
  */
+
+ /*
+
+108 ms
+
+思路： 
+1. 合并两个数组为一个数组
+2. 对数组进行排序
+3. 元素数量是偶数，取count/2 + count/2 - 1的元素除以2.0；元素数是奇数，取count/2元素
+
+ */
 class Solution {
     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
 
+        var tempArray = nums1 + nums2;
+        tempArray = tempArray.sorted();
+        
+        let count:Int = tempArray.count
+        
+        if count % 2 == 0 {
+            let num1:Int = tempArray[count/2]
+            let num2:Int = tempArray[count/2 - 1]
+            return Double((num1 + num2))/2.0
+        } else {
+            return Double(tempArray[count/2])
+        }
     }
 }
 

@@ -20,6 +20,25 @@ class ViewController: UIViewController {
 
 }
 
+// MARK: Median of Two Sorted Arrays
+
+class Solution {
+    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        
+        var tempArray = nums1 + nums2;
+        tempArray = tempArray.sorted();
+        
+        let count:Int = tempArray.count
+        
+        if count % 2 == 0 {
+            let num1:Int = tempArray[count/2]
+            let num2:Int = tempArray[count/2 - 1]
+            return Double((num1 + num2))/2.0
+        } else {
+            return Double(tempArray[count/2])
+        }
+    }
+}
 
 // MARK: Longest Substring Without Repeating Characters
 
