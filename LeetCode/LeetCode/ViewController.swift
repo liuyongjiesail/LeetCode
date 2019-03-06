@@ -25,20 +25,62 @@ class ViewController: UIViewController {
 class Solution {
     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
         
-        var tempArray = nums1 + nums2;
-        tempArray = tempArray.sorted();
+        var i1 = nums1.startIndex
+        var i2 = nums2.startIndex
+        var resultArray = Array<Int>()
         
-        let count:Int = tempArray.count
+        while i1 < nums1.endIndex && i2 < nums2.endIndex {
+            
+            let num1 = nums1[i1];
+            let num2 = nums2[i2];
+            
+            if num1 < num2 {
+                resultArray.append(num1)
+                i1 = nums1.index(i1, offsetBy: 1)
+            } else {
+                resultArray.append(num2)
+                i2 = nums2.index(i2, offsetBy: 1)
+            }
+        }
+        
+        if i1 < nums1.endIndex {
+            resultArray += nums1[i1..<nums1.endIndex]
+        }
+        if i2 < nums2.endIndex {
+            resultArray += nums2[i2..<nums2.endIndex]
+        }
+        
+        // 排序完成以后
+        let count:Int = resultArray.count
         
         if count % 2 == 0 {
-            let num1:Int = tempArray[count/2]
-            let num2:Int = tempArray[count/2 - 1]
+            let num1:Int = resultArray[count/2]
+            let num2:Int = resultArray[count/2 - 1]
             return Double((num1 + num2))/2.0
         } else {
-            return Double(tempArray[count/2])
+            return Double(resultArray[count/2])
         }
     }
 }
+
+//class Solution {
+//    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+//
+//        var tempArray = nums1 + nums2;
+//        tempArray = tempArray.sorted();
+//
+//        let count:Int = tempArray.count
+//
+//        if count % 2 == 0 {
+//            let num1:Int = tempArray[count/2]
+//            let num2:Int = tempArray[count/2 - 1]
+//            return Double((num1 + num2))/2.0
+//        } else {
+//            return Double(tempArray[count/2])
+//        }
+//    }
+//}
+
 
 // MARK: Longest Substring Without Repeating Characters
 
