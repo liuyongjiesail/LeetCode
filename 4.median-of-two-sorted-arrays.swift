@@ -38,6 +38,73 @@
  * 
  */
 
+/*
+
+✔ Accepted
+  ✔ 2084/2084 cases passed (84 ms)
+  ✔ Your runtime beats 100 % of swift submissions
+  ✔ Your memory usage beats 88.73 % of swift submissions (19.1 MB)
+
+*/
+class Solution {
+    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        
+        var maxNumber:Int = 0
+        var minNumber:Int = 0
+        var maxArray = Array<Int>()
+        var minArray = Array<Int>()
+        
+        if nums1.count > nums2.count {
+            maxNumber = nums1.count
+            minNumber = nums2.count
+            maxArray = nums1
+            minArray = nums2
+        } else {
+            maxNumber = nums2.count
+            minNumber = nums1.count
+            maxArray = nums2
+            minArray = nums1
+        }
+        
+        var iMin = 0
+        var iMax = minNumber
+        let halfLength = (maxNumber + minNumber + 1)/2
+        
+        while iMin <= iMax {
+            let i = (iMin + iMax)/2
+            let j = halfLength - i
+            if i < iMax && maxArray[j-1] > minArray[i] {
+                iMin = i + 1
+            } else if i > iMin && minArray[i-1] > maxArray[j] {
+                iMax = i - 1
+            } else {
+                var maxLeft = 0
+                if i == 0 {
+                    maxLeft = maxArray[j-1]
+                } else if j == 0 {
+                    maxLeft = minArray[i-1]
+                } else {
+                    maxLeft = max(minArray[i-1], maxArray[j-1])
+                }
+                if (maxNumber + minNumber) % 2 == 1 {
+                    return Double(maxLeft)
+                }
+                var minRight = 0
+                if i == minNumber {
+                    minRight = maxArray[j]
+                } else if j == maxNumber {
+                    minRight = minArray[i]
+                } else {
+                    minRight = min(maxArray[j], minArray[i])
+                }
+                return Double((maxLeft + minRight)) / 2.0
+            }
+        }
+        
+        return 0.1;
+    }
+}
+
  /*
 
 108 ms  复杂度 > O(m+n)
@@ -54,23 +121,23 @@
 3. 元素数量是偶数，取count/2 + count/2 - 1的元素除以2.0；元素数是奇数，取count/2元素
 
  */
-class Solution {
-    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+// class Solution {
+//     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
 
-        var tempArray = nums1 + nums2;
-        tempArray = tempArray.sorted();
+//         var tempArray = nums1 + nums2;
+//         tempArray = tempArray.sorted();
         
-        let count:Int = tempArray.count
+//         let count:Int = tempArray.count
         
-        if count % 2 == 0 {
-            let num1:Int = tempArray[count/2]
-            let num2:Int = tempArray[count/2 - 1]
-            return Double((num1 + num2))/2.0
-        } else {
-            return Double(tempArray[count/2])
-        }
-    }
-}
+//         if count % 2 == 0 {
+//             let num1:Int = tempArray[count/2]
+//             let num2:Int = tempArray[count/2 - 1]
+//             return Double((num1 + num2))/2.0
+//         } else {
+//             return Double(tempArray[count/2])
+//         }
+//     }
+// }
 
 
 /*

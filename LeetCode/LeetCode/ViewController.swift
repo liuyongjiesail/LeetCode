@@ -25,43 +25,102 @@ class ViewController: UIViewController {
 class Solution {
     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
         
-        var i1 = nums1.startIndex
-        var i2 = nums2.startIndex
-        var resultArray = Array<Int>()
+        var maxNumber:Int = 0
+        var minNumber:Int = 0
+        var maxArray = Array<Int>()
+        var minArray = Array<Int>()
         
-        while i1 < nums1.endIndex && i2 < nums2.endIndex {
-            
-            let num1 = nums1[i1];
-            let num2 = nums2[i2];
-            
-            if num1 < num2 {
-                resultArray.append(num1)
-                i1 = nums1.index(i1, offsetBy: 1)
+        if nums1.count > nums2.count {
+            maxNumber = nums1.count
+            minNumber = nums2.count
+            maxArray = nums1
+            minArray = nums2
+        } else {
+            maxNumber = nums2.count
+            minNumber = nums1.count
+            maxArray = nums2
+            minArray = nums1
+        }
+        
+        var iMin = 0
+        var iMax = minNumber
+        let halfLength = (maxNumber + minNumber + 1)/2
+        
+        while iMin <= iMax {
+            let i = (iMin + iMax)/2
+            let j = halfLength - i
+            if i < iMax && maxArray[j-1] > minArray[i] {
+                iMin = i + 1
+            } else if i > iMin && minArray[i-1] > maxArray[j] {
+                iMax = i - 1
             } else {
-                resultArray.append(num2)
-                i2 = nums2.index(i2, offsetBy: 1)
+                var maxLeft = 0
+                if i == 0 {
+                    maxLeft = maxArray[j-1]
+                } else if j == 0 {
+                    maxLeft = minArray[i-1]
+                } else {
+                    maxLeft = max(minArray[i-1], maxArray[j-1])
+                }
+                if (maxNumber + minNumber) % 2 == 1 {
+                    return Double(maxLeft)
+                }
+                var minRight = 0
+                if i == minNumber {
+                    minRight = maxArray[j]
+                } else if j == maxNumber {
+                    minRight = minArray[i]
+                } else {
+                    minRight = min(maxArray[j], minArray[i])
+                }
+                return Double((maxLeft + minRight)) / 2.0
             }
         }
         
-        if i1 < nums1.endIndex {
-            resultArray += nums1[i1..<nums1.endIndex]
-        }
-        if i2 < nums2.endIndex {
-            resultArray += nums2[i2..<nums2.endIndex]
-        }
-        
-        // 排序完成以后
-        let count:Int = resultArray.count
-        
-        if count % 2 == 0 {
-            let num1:Int = resultArray[count/2]
-            let num2:Int = resultArray[count/2 - 1]
-            return Double((num1 + num2))/2.0
-        } else {
-            return Double(resultArray[count/2])
-        }
+        return 0.1;
     }
 }
+
+//class Solution {
+//    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+//
+//        var i1 = nums1.startIndex
+//        var i2 = nums2.startIndex
+//        var resultArray = Array<Int>()
+//
+//        while i1 < nums1.endIndex && i2 < nums2.endIndex {
+//
+//            let num1 = nums1[i1];
+//            let num2 = nums2[i2];
+//
+//            if num1 < num2 {
+//                resultArray.append(num1)
+//                i1 = nums1.index(i1, offsetBy: 1)
+//            } else {
+//                resultArray.append(num2)
+//                i2 = nums2.index(i2, offsetBy: 1)
+//            }
+//        }
+//
+//        if i1 < nums1.endIndex {
+//            resultArray += nums1[i1..<nums1.endIndex]
+//        }
+//        if i2 < nums2.endIndex {
+//            resultArray += nums2[i2..<nums2.endIndex]
+//        }
+//
+//        // 排序完成以后
+//        let count:Int = resultArray.count
+//
+//        if count % 2 == 0 {
+//            let num1:Int = resultArray[count/2]
+//            let num2:Int = resultArray[count/2 - 1]
+//            return Double((num1 + num2))/2.0
+//        } else {
+//            return Double(resultArray[count/2])
+//        }
+//    }
+//}
 
 //class Solution {
 //    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
