@@ -13,73 +13,124 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(Solution())
+        print(Solution().longestPalindrome("aaaaaa"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 
 }
 
-// MARK: Median of Two Sorted Arrays
+// MARK: Longest Palindromic Substring
 
 class Solution {
-    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+    
+    func longestPalindrome(_ s: String) -> String {
         
-        var maxNumber:Int = 0
-        var minNumber:Int = 0
-        var maxArray = Array<Int>()
-        var minArray = Array<Int>()
+        var maxPalinLength = 0
+        let charArray = Array(s)
         
-        if nums1.count > nums2.count {
-            maxNumber = nums1.count
-            minNumber = nums2.count
-            maxArray = nums1
-            minArray = nums2
-        } else {
-            maxNumber = nums2.count
-            minNumber = nums1.count
-            maxArray = nums2
-            minArray = nums1
+        if charArray.count < 1 {
+            return ""
         }
         
-        var iMin = 0
-        var iMax = minNumber
-        let halfLength = (maxNumber + minNumber + 1)/2
+        var longestPalindrome = String(charArray[0])
         
-        while iMin <= iMax {
-            let i = (iMin + iMax)/2
-            let j = halfLength - i
-            if i < iMax && maxArray[j-1] > minArray[i] {
-                iMin = i + 1
-            } else if i > iMin && minArray[i-1] > maxArray[j] {
-                iMax = i - 1
-            } else {
-                var maxLeft = 0
-                if i == 0 {
-                    maxLeft = maxArray[j-1]
-                } else if j == 0 {
-                    maxLeft = minArray[i-1]
-                } else {
-                    maxLeft = max(minArray[i-1], maxArray[j-1])
+        if charArray.count == 1 {
+            return s
+        }
+        if charArray.count == 2 && charArray[0] != charArray[1] {
+            return String(charArray[0])
+        }
+        
+        for i in 0..<charArray.count {
+            for j in i+1..<charArray.count {
+                let length = j - i
+                let currentString = String(charArray[i..<j+1])
+                print("\n==" + currentString)
+                if isPalindrome(currentString) {
+                    if length > maxPalinLength {
+                        longestPalindrome = currentString
+                        maxPalinLength = length;
+                    }
                 }
-                if (maxNumber + minNumber) % 2 == 1 {
-                    return Double(maxLeft)
-                }
-                var minRight = 0
-                if i == minNumber {
-                    minRight = maxArray[j]
-                } else if j == maxNumber {
-                    minRight = minArray[i]
-                } else {
-                    minRight = min(maxArray[j], minArray[i])
-                }
-                return Double((maxLeft + minRight)) / 2.0
             }
         }
         
-        return 0.1;
+        return longestPalindrome;
+    }
+    
+    func isPalindrome(_ s: String) -> Bool {
+        var charArray = Array(s)
+        let count = charArray.count
+        for i in 0..<count-1 {
+            if charArray[i] != charArray[count - 1 - i] {
+                return false
+            }
+        }
+        return true
     }
 }
+
+// MARK: Median of Two Sorted Arrays
+
+//class Solution {
+//    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+//
+//        var maxNumber:Int = 0
+//        var minNumber:Int = 0
+//        var maxArray = Array<Int>()
+//        var minArray = Array<Int>()
+//
+//        if nums1.count > nums2.count {
+//            maxNumber = nums1.count
+//            minNumber = nums2.count
+//            maxArray = nums1
+//            minArray = nums2
+//        } else {
+//            maxNumber = nums2.count
+//            minNumber = nums1.count
+//            maxArray = nums2
+//            minArray = nums1
+//        }
+//
+//        var iMin = 0
+//        var iMax = minNumber
+//        let halfLength = (maxNumber + minNumber + 1)/2
+//
+//        while iMin <= iMax {
+//            let i = (iMin + iMax)/2
+//            let j = halfLength - i
+//            if i < iMax && maxArray[j-1] > minArray[i] {
+//                iMin = i + 1
+//            } else if i > iMin && minArray[i-1] > maxArray[j] {
+//                iMax = i - 1
+//            } else {
+//                var maxLeft = 0
+//                if i == 0 {
+//                    maxLeft = maxArray[j-1]
+//                } else if j == 0 {
+//                    maxLeft = minArray[i-1]
+//                } else {
+//                    maxLeft = max(minArray[i-1], maxArray[j-1])
+//                }
+//                if (maxNumber + minNumber) % 2 == 1 {
+//                    return Double(maxLeft)
+//                }
+//                var minRight = 0
+//                if i == minNumber {
+//                    minRight = maxArray[j]
+//                } else if j == maxNumber {
+//                    minRight = minArray[i]
+//                } else {
+//                    minRight = min(maxArray[j], minArray[i])
+//                }
+//                return Double((maxLeft + minRight)) / 2.0
+//            }
+//        }
+//
+//        return 0.1;
+//    }
+//}
 
 //class Solution {
 //    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
