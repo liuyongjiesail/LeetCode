@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().longestPalindrome("aaaaaa"))
+        print(Solution().longestPalindrome("aaabaaaa"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -27,49 +27,100 @@ class Solution {
     func longestPalindrome(_ s: String) -> String {
         
         var maxPalinLength = 0
+        var longestPalindrome = String()
         let charArray = Array(s)
         
-        if charArray.count < 1 {
-            return ""
+        var tempArray = Array<Int>()
+        var doubleArray = Array<Array<Int>>()
+
+        for _ in 0..<charArray.count {
+            tempArray.append(1)
         }
         
-        var longestPalindrome = String(charArray[0])
-        
-        if charArray.count == 1 {
-            return s
-        }
-        if charArray.count == 2 && charArray[0] != charArray[1] {
-            return String(charArray[0])
+        for _ in 0..<charArray.count {
+            doubleArray.append(tempArray)
         }
         
-        for i in 0..<charArray.count {
-            for j in i+1..<charArray.count {
-                let length = j - i
-                let currentString = String(charArray[i..<j+1])
-                print("\n==" + currentString)
-                if isPalindrome(currentString) {
-                    if length > maxPalinLength {
-                        longestPalindrome = currentString
-                        maxPalinLength = length;
+        longestPalindrome = String(charArray[0])
+        
+        print(doubleArray)
+        
+        for i in 0...charArray.count - 2 {
+            if charArray[i] == charArray[i+1] {
+                doubleArray[i][i+1] = 1
+                longestPalindrome = String(charArray[i..<i+2])
+            }
+        }
+        print("==="+longestPalindrome)
+        print(doubleArray)
+        
+        for l in 2...charArray.count {
+            for i in 0...charArray.count - l {
+                let j = i + l - 1
+                if charArray[i] == charArray[j] {
+                    doubleArray[i][j] = doubleArray[i+1][j-1]
+                    if doubleArray[i][j] == 1 && l > maxPalinLength {
+                        longestPalindrome = String(charArray[i..<j+1])
                     }
+                } else {
+                    doubleArray[i][j] = 0;
                 }
             }
         }
         
-        return longestPalindrome;
+        return longestPalindrome
     }
     
-    func isPalindrome(_ s: String) -> Bool {
-        var charArray = Array(s)
-        let count = charArray.count
-        for i in 0..<count-1 {
-            if charArray[i] != charArray[count - 1 - i] {
-                return false
-            }
-        }
-        return true
-    }
 }
+
+//class Solution {
+//
+//    func longestPalindrome(_ s: String) -> String {
+//
+//        var maxPalinLength = 0
+//        let charArray = Array(s)
+//
+//        if charArray.count < 1 {
+//            return ""
+//        }
+//
+//        var longestPalindrome = String(charArray[0])
+//
+//        if charArray.count == 1 {
+//            return s
+//        }
+//        if charArray.count == 2 && charArray[0] != charArray[1] {
+//            return String(charArray[0])
+//        }
+//
+//        for i in 0..<charArray.count {
+//            for j in i+1..<charArray.count {
+//                let length = j - i
+//                let currentString = String(charArray[i..<j+1])
+//                print("\n==" + currentString)
+//                if isPalindrome(currentString) {
+//                    if length > maxPalinLength {
+//                        longestPalindrome = currentString
+//                        maxPalinLength = length;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return longestPalindrome;
+//    }
+//
+//    func isPalindrome(_ s: String) -> Bool {
+//        var charArray = Array(s)
+//        let count = charArray.count
+//        for i in 0..<count-1 {
+//            if charArray[i] != charArray[count - 1 - i] {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}
 
 // MARK: Median of Two Sorted Arrays
 

@@ -31,6 +31,83 @@
  * 
  */
 
+ /*
+
+动态规划
+
+✘ Time Limit Exceeded
+  ✘ 89/103 cases passed (N/A)
+  ✘ testcase: '"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababa"'
+  ✘ answer: 
+  ✘ expected_answer: 
+  ✘ stdout:
+
+ */
+
+class Solution {
+    
+    func longestPalindrome(_ s: String) -> String {
+        
+        var maxPalinLength = 0
+        var longestPalindrome = String()
+        let charArray = Array(s)
+
+        if charArray.count < 1 {
+            return ""
+        }
+                
+        if charArray.count == 1 {
+            return s
+        }
+        
+        longestPalindrome = String(charArray[0])
+
+        if charArray.count == 2 {
+            if charArray[0] == charArray[1] {
+                return s
+            } else {
+                return String(charArray[0])
+            }
+        }
+        
+        var tempArray = Array<Int>()
+        var doubleArray = Array<Array<Int>>()
+
+        for index in 0..<charArray.count {
+            tempArray.append(1)
+        }
+        
+        for index in 0..<charArray.count {
+            doubleArray.append(tempArray)
+        }
+                
+        for i in 0...charArray.count - 2 {
+            if charArray[i] == charArray[i+1] {
+                doubleArray[i][i+1] = 1
+                longestPalindrome = String(charArray[i..<i+2])
+            }
+        }
+        
+        for l in 2...charArray.count {
+            for i in 0...charArray.count - l {
+                let j = i + l - 1
+                if charArray[i] == charArray[j] {
+                    doubleArray[i][j] = doubleArray[i+1][j-1]
+                    if doubleArray[i][j] == 1 && l > maxPalinLength {
+                        longestPalindrome = String(charArray[i..<j+1])
+                    }
+                } else {
+                    doubleArray[i][j] = 0;
+                }
+            }
+        }
+        
+        return longestPalindrome
+    }
+    
+}
+
+
 /*
   暴力破解超时
 
@@ -42,7 +119,7 @@
   ✘ stdout:
 
 */
-
+/*
 class Solution {
     
     func longestPalindrome(_ s: String) -> String {
@@ -90,4 +167,4 @@ class Solution {
         return true
     }
 }
-
+*/
