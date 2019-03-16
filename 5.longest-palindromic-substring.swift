@@ -31,6 +31,91 @@
  * 
  */
 
+ /*
+
+优化的从中心扩展
+
+   把字符串都弄成奇数回文，减少了循环次数
+
+✔ Accepted
+  ✔ 103/103 cases passed (2576 ms)
+  ✔ Your runtime beats 15.3 % of swift submissions
+  ✔ Your memory usage beats 15 % of swift submissions (20 MB)
+
+ */
+
+class Solution {
+    
+    func longestPalindrome(_ s: String) -> String {
+        
+        var longestPalindrome = String()
+        let charArray = Array(s)
+        var newCharArray = Array<Character>()
+        
+        for i in 0..<charArray.count {
+            newCharArray.append("#")
+            newCharArray.append(charArray[i])
+        }
+        newCharArray.append("#")
+        
+        if newCharArray.count == 0 {
+            return ""
+        }
+        if newCharArray.count == 1 {
+            return s
+        }
+        
+        longestPalindrome = String(newCharArray[0])
+        
+        for i in 0..<newCharArray.count {
+            
+            let tempString:String = centerExtend(newCharArray, i, i)
+            
+            if tempString.count > longestPalindrome.count {
+                longestPalindrome = tempString;
+            }
+            
+        }
+        
+        var result = String()
+        for char in longestPalindrome {
+            if char != "#" {
+                result += String(char)
+            }
+        }
+        
+        return result
+    }
+    
+    func centerExtend(_ charArray: Array<Character>, _ left: Int, _ right: Int) -> String {
+        
+        var currentLeft:Int = left
+        var currentRight:Int = right
+        
+        while currentLeft >= 0 && currentRight <= charArray.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+            currentLeft -= 1
+            currentRight += 1
+        }
+        
+        return String(charArray[currentLeft+1..<currentRight])
+    }
+    
+}
+
+
+ /*
+ 
+ 中心扩展方法
+
+ ✘ Time Limit Exceeded
+  ✘ 91/103 cases passed (N/A)
+  ✘ testcase: '"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
+  ✘ answer: 
+  ✘ expected_answer: 
+  ✘ stdout:
+
+ */
+/*
  class Solution {
     
     func longestPalindrome(_ s: String) -> String {
@@ -81,7 +166,7 @@
     }
     
 }
-
+*/
  /*
 
 动态规划

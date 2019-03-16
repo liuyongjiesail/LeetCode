@@ -26,27 +26,30 @@ class Solution {
     
     func longestPalindrome(_ s: String) -> String {
         
-        let charArray = Array(s)
         var longestPalindrome = String()
+        let charArray = Array(s)
+        var newCharArray = Array<Character>()
         
-        if charArray.count == 0 {
+        for i in 0..<charArray.count {
+            newCharArray.append("#")
+            newCharArray.append(charArray[i])
+        }
+        newCharArray.append("#")
+        
+        print(newCharArray)
+        
+        if newCharArray.count == 0 {
             return ""
         }
-        if charArray.count == 1 {
+        if newCharArray.count == 1 {
             return s
         }
         
-        longestPalindrome = String(charArray[0])
+        longestPalindrome = String(newCharArray[0])
         
-        for i in 0..<charArray.count {
+        for i in 0..<newCharArray.count {
             
-            var tempString:String = centerExtend(s, i, i)
-            
-            if tempString.count > longestPalindrome.count {
-                longestPalindrome = tempString;
-            }
-            
-            tempString = centerExtend(s, i, i+1)
+            let tempString:String = centerExtend(newCharArray, i, i)
             
             if tempString.count > longestPalindrome.count {
                 longestPalindrome = tempString;
@@ -54,16 +57,22 @@ class Solution {
             
         }
         
-        return longestPalindrome
+        var result = String()
+        for char in longestPalindrome {
+            if char != "#" {
+                result += String(char)
+            }
+        }
+        
+        return result
     }
     
-    func centerExtend(_ s: String, _ left: Int, _ right: Int) -> String {
+    func centerExtend(_ charArray: Array<Character>, _ left: Int, _ right: Int) -> String {
         
-        let charArray = Array(s)
         var currentLeft:Int = left
         var currentRight:Int = right
         
-        while currentLeft >= 0 && currentRight <= s.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+        while currentLeft >= 0 && currentRight <= charArray.count - 1 && charArray[currentLeft] == charArray[currentRight] {
             currentLeft -= 1
             currentRight += 1
         }
@@ -72,6 +81,57 @@ class Solution {
     }
     
 }
+
+//class Solution {
+//
+//    func longestPalindrome(_ s: String) -> String {
+//
+//        let charArray = Array(s)
+//        var longestPalindrome = String()
+//
+//        if charArray.count == 0 {
+//            return ""
+//        }
+//        if charArray.count == 1 {
+//            return s
+//        }
+//
+//        longestPalindrome = String(charArray[0])
+//
+//        for i in 0..<charArray.count {
+//
+//            var tempString:String = centerExtend(s, i, i)
+//
+//            if tempString.count > longestPalindrome.count {
+//                longestPalindrome = tempString;
+//            }
+//
+//            tempString = centerExtend(s, i, i+1)
+//
+//            if tempString.count > longestPalindrome.count {
+//                longestPalindrome = tempString;
+//            }
+//
+//        }
+//
+//        return longestPalindrome
+//    }
+//
+//    func centerExtend(_ s: String, _ left: Int, _ right: Int) -> String {
+//
+//        let charArray = Array(s)
+//        var currentLeft:Int = left
+//        var currentRight:Int = right
+//
+//        while currentLeft >= 0 && currentRight <= s.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+//            currentLeft -= 1
+//            currentRight += 1
+//        }
+//
+//        return String(charArray[currentLeft+1..<currentRight])
+//    }
+//
+//}
 
 //class Solution {
 //
