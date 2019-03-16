@@ -31,6 +31,57 @@
  * 
  */
 
+ class Solution {
+    
+    func longestPalindrome(_ s: String) -> String {
+        
+        let charArray = Array(s)
+        var longestPalindrome = String()
+        
+        if charArray.count == 0 {
+            return ""
+        }
+        if charArray.count == 1 {
+            return s
+        }
+        
+        longestPalindrome = String(charArray[0])
+        
+        for i in 0..<charArray.count {
+            
+            var tempString:String = centerExtend(s, i, i)
+            
+            if tempString.count > longestPalindrome.count {
+                longestPalindrome = tempString;
+            }
+            
+            tempString = centerExtend(s, i, i+1)
+            
+            if tempString.count > longestPalindrome.count {
+                longestPalindrome = tempString;
+            }
+            
+        }
+        
+        return longestPalindrome
+    }
+    
+    func centerExtend(_ s: String, _ left: Int, _ right: Int) -> String {
+        
+        let charArray = Array(s)
+        var currentLeft:Int = left
+        var currentRight:Int = right
+        
+        while currentLeft >= 0 && currentRight <= s.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+            currentLeft -= 1
+            currentRight += 1
+        }
+        
+        return String(charArray[currentLeft+1..<currentRight])
+    }
+    
+}
+
  /*
 
 动态规划
@@ -43,7 +94,7 @@
   ✘ stdout:
 
  */
-
+/*
 class Solution {
     
     func longestPalindrome(_ s: String) -> String {
@@ -106,7 +157,7 @@ class Solution {
     }
     
 }
-
+*/
 
 /*
   暴力破解超时

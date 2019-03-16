@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().longestPalindrome("aaabaaaa"))
+        print(Solution().longestPalindrome("aaabaaaaaa"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -26,52 +26,103 @@ class Solution {
     
     func longestPalindrome(_ s: String) -> String {
         
-        var maxPalinLength = 0
-        var longestPalindrome = String()
         let charArray = Array(s)
+        var longestPalindrome = String()
         
-        var tempArray = Array<Int>()
-        var doubleArray = Array<Array<Int>>()
-
-        for _ in 0..<charArray.count {
-            tempArray.append(1)
+        if charArray.count == 0 {
+            return ""
         }
-        
-        for _ in 0..<charArray.count {
-            doubleArray.append(tempArray)
+        if charArray.count == 1 {
+            return s
         }
         
         longestPalindrome = String(charArray[0])
         
-        print(doubleArray)
-        
-        for i in 0...charArray.count - 2 {
-            if charArray[i] == charArray[i+1] {
-                doubleArray[i][i+1] = 1
-                longestPalindrome = String(charArray[i..<i+2])
+        for i in 0..<charArray.count {
+            
+            var tempString:String = centerExtend(s, i, i)
+            
+            if tempString.count > longestPalindrome.count {
+                longestPalindrome = tempString;
             }
-        }
-        print("==="+longestPalindrome)
-        print(doubleArray)
-        
-        for l in 2...charArray.count {
-            for i in 0...charArray.count - l {
-                let j = i + l - 1
-                if charArray[i] == charArray[j] {
-                    doubleArray[i][j] = doubleArray[i+1][j-1]
-                    if doubleArray[i][j] == 1 && l > maxPalinLength {
-                        longestPalindrome = String(charArray[i..<j+1])
-                    }
-                } else {
-                    doubleArray[i][j] = 0;
-                }
+            
+            tempString = centerExtend(s, i, i+1)
+            
+            if tempString.count > longestPalindrome.count {
+                longestPalindrome = tempString;
             }
+            
         }
         
         return longestPalindrome
     }
     
+    func centerExtend(_ s: String, _ left: Int, _ right: Int) -> String {
+        
+        let charArray = Array(s)
+        var currentLeft:Int = left
+        var currentRight:Int = right
+        
+        while currentLeft >= 0 && currentRight <= s.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+            currentLeft -= 1
+            currentRight += 1
+        }
+        
+        return String(charArray[currentLeft+1..<currentRight])
+    }
+    
 }
+
+//class Solution {
+//
+//    func longestPalindrome(_ s: String) -> String {
+//
+//        var maxPalinLength = 0
+//        var longestPalindrome = String()
+//        let charArray = Array(s)
+//
+//        var tempArray = Array<Int>()
+//        var doubleArray = Array<Array<Int>>()
+//
+//        for _ in 0..<charArray.count {
+//            tempArray.append(1)
+//        }
+//
+//        for _ in 0..<charArray.count {
+//            doubleArray.append(tempArray)
+//        }
+//
+//        longestPalindrome = String(charArray[0])
+//
+//        print(doubleArray)
+//
+//        for i in 0...charArray.count - 2 {
+//            if charArray[i] == charArray[i+1] {
+//                doubleArray[i][i+1] = 1
+//                longestPalindrome = String(charArray[i..<i+2])
+//            }
+//        }
+//        print("==="+longestPalindrome)
+//        print(doubleArray)
+//
+//        for l in 2...charArray.count {
+//            for i in 0...charArray.count - l {
+//                let j = i + l - 1
+//                if charArray[i] == charArray[j] {
+//                    doubleArray[i][j] = doubleArray[i+1][j-1]
+//                    if doubleArray[i][j] == 1 && l > maxPalinLength {
+//                        longestPalindrome = String(charArray[i..<j+1])
+//                    }
+//                } else {
+//                    doubleArray[i][j] = 0;
+//                }
+//            }
+//        }
+//
+//        return longestPalindrome
+//    }
+//
+//}
 
 //class Solution {
 //
