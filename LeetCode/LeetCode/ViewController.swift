@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().longestPalindrome("aaabaaaaaa"))
+        print(Solution().longestPalindrome("babad"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -26,61 +26,109 @@ class Solution {
     
     func longestPalindrome(_ s: String) -> String {
         
-        var longestPalindrome = String()
         let charArray = Array(s)
         var newCharArray = Array<Character>()
         
-        for i in 0..<charArray.count {
-            newCharArray.append("#")
-            newCharArray.append(charArray[i])
-        }
+        newCharArray.append("@")
         newCharArray.append("#")
+        for i in 0..<charArray.count {
+            newCharArray.append(charArray[i])
+            newCharArray.append("#")
+        }
+        newCharArray.append("$")
+        
+        var P = Array<Int>()
+        for _ in 0..<newCharArray.count {
+            P.append(0)
+        }
         
         print(newCharArray)
         
-        if newCharArray.count == 0 {
-            return ""
-        }
-        if newCharArray.count == 1 {
-            return s
-        }
+        var mi = 0, right = 0
+        var maxLen = 0, maxPoint = 0
         
-        longestPalindrome = String(newCharArray[0])
-        
-        for i in 0..<newCharArray.count {
+        for i in 1..<newCharArray.count-1 {
             
-            let tempString:String = centerExtend(newCharArray, i, i)
+            P[i] = right > i ? min(P[2*mi-i], right - i) : 1
             
-            if tempString.count > longestPalindrome.count {
-                longestPalindrome = tempString;
+            while newCharArray[i + P[i]] == newCharArray[i - P[i]] {
+                P[i] = P[i] + 1
             }
             
-        }
-        
-        var result = String()
-        for char in longestPalindrome {
-            if char != "#" {
-                result += String(char)
+            if right < i + P[i] {
+                right = i + P[i]
+                mi = i
+            }
+            
+            if maxLen < P[i] {
+                maxLen = P[i]
+                maxPoint = i
             }
         }
         
-        return result
+        return String(charArray[(maxPoint - maxLen)/2..<(maxPoint - maxLen)/2 + maxLen - 1])
     }
-    
-    func centerExtend(_ charArray: Array<Character>, _ left: Int, _ right: Int) -> String {
-        
-        var currentLeft:Int = left
-        var currentRight:Int = right
-        
-        while currentLeft >= 0 && currentRight <= charArray.count - 1 && charArray[currentLeft] == charArray[currentRight] {
-            currentLeft -= 1
-            currentRight += 1
-        }
-        
-        return String(charArray[currentLeft+1..<currentRight])
-    }
-    
 }
+
+//class Solution {
+//
+//    func longestPalindrome(_ s: String) -> String {
+//
+//        var longestPalindrome = String()
+//        let charArray = Array(s)
+//        var newCharArray = Array<Character>()
+//
+//        for i in 0..<charArray.count {
+//            newCharArray.append("#")
+//            newCharArray.append(charArray[i])
+//        }
+//        newCharArray.append("#")
+//
+//        print(newCharArray)
+//
+//        if newCharArray.count == 0 {
+//            return ""
+//        }
+//        if newCharArray.count == 1 {
+//            return s
+//        }
+//
+//        longestPalindrome = String(newCharArray[0])
+//
+//        for i in 0..<newCharArray.count {
+//
+//            let tempString:String = centerExtend(newCharArray, i, i)
+//
+//            if tempString.count > longestPalindrome.count {
+//                longestPalindrome = tempString;
+//            }
+//
+//        }
+//
+//        var result = String()
+//        for char in longestPalindrome {
+//            if char != "#" {
+//                result += String(char)
+//            }
+//        }
+//
+//        return result
+//    }
+//
+//    func centerExtend(_ charArray: Array<Character>, _ left: Int, _ right: Int) -> String {
+//
+//        var currentLeft:Int = left
+//        var currentRight:Int = right
+//
+//        while currentLeft >= 0 && currentRight <= charArray.count - 1 && charArray[currentLeft] == charArray[currentRight] {
+//            currentLeft -= 1
+//            currentRight += 1
+//        }
+//
+//        return String(charArray[currentLeft+1..<currentRight])
+//    }
+//
+//}
 
 //class Solution {
 //

@@ -31,6 +31,68 @@
  * 
  */
 
+/*
+
+Manacher算法
+
+https://www.cnblogs.com/love-yh/p/7072161.html
+
+公式：P[i] = right > i ? min(P[2*mi-i], right - i) : 1
+
+✔ Accepted
+  ✔ 103/103 cases passed (24 ms)
+  ✔ Your runtime beats 100 % of swift submissions
+  ✔ Your memory usage beats 25 % of swift submissions (19.8 MB)
+
+*/
+
+class Solution {
+    
+    func longestPalindrome(_ s: String) -> String {
+        
+        let charArray = Array(s)
+        var newCharArray = Array<Character>()
+        
+        newCharArray.append("@")
+        newCharArray.append("#")
+        for i in 0..<charArray.count {
+            newCharArray.append(charArray[i])
+            newCharArray.append("#")
+        }
+        newCharArray.append("$")
+        
+        var P = Array<Int>()
+        for _ in 0..<newCharArray.count {
+            P.append(0)
+        }
+                
+        var mi = 0, right = 0
+        var maxLen = 0, maxPoint = 0
+        
+        for i in 1..<newCharArray.count-1 {
+            
+            P[i] = right > i ? min(P[2*mi-i], right - i) : 1
+            
+            while newCharArray[i + P[i]] == newCharArray[i - P[i]] {
+                P[i] = P[i] + 1
+            }
+            
+            if right < i + P[i] {
+                right = i + P[i]
+                mi = i
+            }
+            
+            if maxLen < P[i] {
+                maxLen = P[i]
+                maxPoint = i
+            }
+        }
+        
+        return String(charArray[(maxPoint - maxLen)/2..<(maxPoint - maxLen)/2 + maxLen - 1])
+    }
+}
+
+
  /*
 
 优化的从中心扩展
@@ -43,7 +105,7 @@
   ✔ Your memory usage beats 15 % of swift submissions (20 MB)
 
  */
-
+/*
 class Solution {
     
     func longestPalindrome(_ s: String) -> String {
@@ -101,7 +163,7 @@ class Solution {
     }
     
 }
-
+*/
 
  /*
  
