@@ -13,63 +13,103 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().convert("abcdef", 4))
+        print(Solution().reverse(1534236469))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 
 }
 
-// MARK: Longest Palindromic Substring
+// MARK: Reverse Integer
 
 class Solution {
-    func convert(_ s: String, _ numRows: Int) -> String {
+    func reverse(_ x: Int) -> Int {
         
-        var charArray = Array(s)
-        var dictionary = Dictionary<Int, Array<Character>>()
-        var resultCharArray = Array<Character>()
+        let numStr = "\(x)"
+        var intArray = Array(numStr)
+        var resultArray = Array<Character>()
         
-        for i in 0..<numRows {
-            let array = Array<Character>()
-            dictionary[i] = array
+        for i in intArray.reversed() {
+            if i != "-" {
+                if i != "0" || resultArray.count > 0 {
+                    resultArray.append(i)
+                }
+            }
         }
         
-        var temp = 0
-        var tempBool = false
+        if intArray[0] == "-" {
+            resultArray.insert("-", at: 0)
+        }
+        print(resultArray)
         
-        for i in 0..<charArray.count {
-            
-            dictionary[temp]?.append(charArray[i])
-            
-            if temp >= numRows - 1 {
-                tempBool = true
-            }
-            
-            if tempBool {
-                temp = temp - 1
-            } else {
-                temp = temp + 1
-            }
-            
-            if temp <= 0 {
-                temp = 0
-                tempBool = false
-            }
-            
+        if resultArray.count == 0 {
+            return 0
         }
         
-        print(dictionary)
+        let result = Int(String(resultArray[0..<resultArray.count]))!
         
-        for i in 0..<numRows {
-            resultCharArray = resultCharArray + dictionary[i]!
+        // 溢出处理
+        if result > 2147483647 || result < -2147483648 {
+            return 0
         }
         
-        print(resultCharArray)
-        
-        return String(resultCharArray[0..<resultCharArray.count])
+        return result
         
     }
 }
+
+// MARK: Zig Zag Conversion
+
+//class Solution {
+//    func convert(_ s: String, _ numRows: Int) -> String {
+//
+//        var charArray = Array(s)
+//        var dictionary = Dictionary<Int, Array<Character>>()
+//        var resultCharArray = Array<Character>()
+//
+//        for i in 0..<numRows {
+//            let array = Array<Character>()
+//            dictionary[i] = array
+//        }
+//
+//        var temp = 0
+//        var tempBool = false
+//
+//        for i in 0..<charArray.count {
+//
+//            dictionary[temp]?.append(charArray[i])
+//
+//            if temp >= numRows - 1 {
+//                tempBool = true
+//            }
+//
+//            if tempBool {
+//                temp = temp - 1
+//            } else {
+//                temp = temp + 1
+//            }
+//
+//            if temp <= 0 {
+//                temp = 0
+//                tempBool = false
+//            }
+//
+//        }
+//
+//        print(dictionary)
+//
+//        for i in 0..<numRows {
+//            resultCharArray = resultCharArray + dictionary[i]!
+//        }
+//
+//        print(resultCharArray)
+//
+//        return String(resultCharArray[0..<resultCharArray.count])
+//
+//    }
+//}
+
+// MARK: Longest Palindromic Substring
 
 //class Solution {
 //
