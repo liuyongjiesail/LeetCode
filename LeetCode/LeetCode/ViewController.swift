@@ -13,50 +13,153 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().reverse(1534236469))
+        print(Solution().myAtoi("1095502006p8"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
 }
 
-// MARK: Reverse Integer
+// MARK: String to Integer (atoi)
 
 class Solution {
-    func reverse(_ x: Int) -> Int {
+    func myAtoi(_ str: String) -> Int {
         
-        let numStr = "\(x)"
-        var intArray = Array(numStr)
+        var digitArray = Array<Character>()
+        var charArray = Array(str)
         var resultArray = Array<Character>()
+        var isNegative = false
         
-        for i in intArray.reversed() {
-            if i != "-" {
-                if i != "0" || resultArray.count > 0 {
-                    resultArray.append(i)
+        // 空串处理
+        if str.count == 0 {
+            return 0
+        }
+        
+        for i in 0..<10 {
+            digitArray.append("\(i)".characters.first!)
+        }
+        
+        for i in 0..<charArray.count {
+            
+            let tempChar = charArray[i]
+            
+            if tempChar == " " {
+                if resultArray.count != 0 {
+                    break
+                }
+                continue
+            }
+            
+            if tempChar == "-" || tempChar == "+" {
+                if resultArray.count != 0 {
+                    break;
+                }
+                if i + 1 < charArray.count && !digitArray.contains(charArray[i+1]) {
+                    return 0
+                }
+                if resultArray.count == 0 && i + 1 < charArray.count && digitArray.contains(charArray[i+1]){
+                    if tempChar == "-" {
+                        isNegative = true
+                    } else {
+                        isNegative = false
+                    }
+                }
+                continue
+            } else {
+                if resultArray.count == 0 && !digitArray.contains(tempChar) {
+                    return 0
                 }
             }
+            
+            if resultArray.count != 0 && tempChar != "-" && !digitArray.contains(tempChar)  {
+                break;
+            }
+            
+            if digitArray.contains(tempChar) {
+                if resultArray.count != 0 && Int(String(resultArray.first!)) == 0 {
+                    resultArray.remove(at: 0)
+                }
+                resultArray.append(tempChar)
+            }
+            
         }
-        
-        if intArray[0] == "-" {
-            resultArray.insert("-", at: 0)
-        }
-        print(resultArray)
         
         if resultArray.count == 0 {
             return 0
         }
         
-        let result = Int(String(resultArray[0..<resultArray.count]))!
+        print(resultArray)
+        var result = 0
         
-        // 溢出处理
-        if result > 2147483647 || result < -2147483648 {
-            return 0
+        let numberStr = "2147483647"
+        let negativeStr = "2147483648"
+        
+        if resultArray.count > 10  {
+            return isNegative ? -2147483648 : 2147483647
+        } else if resultArray.count == 10 {
+            
+            var tempStr = String()
+            if isNegative {
+                tempStr = negativeStr
+            } else {
+                tempStr = numberStr
+            }
+            
+            print(tempStr)
+            
+            print(String(resultArray[0..<resultArray.count]))
+            
+            if tempStr < String(resultArray[0..<resultArray.count]) {
+                return isNegative ? -2147483648 : 2147483647
+            } else {
+                result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
+            }
+            
+        } else {
+            result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
         }
         
         return result
         
     }
 }
+
+// MARK: Reverse Integer
+
+//class Solution {
+//    func reverse(_ x: Int) -> Int {
+//
+//        let numStr = "\(x)"
+//        var intArray = Array(numStr)
+//        var resultArray = Array<Character>()
+//
+//        for i in intArray.reversed() {
+//            if i != "-" {
+//                if i != "0" || resultArray.count > 0 {
+//                    resultArray.append(i)
+//                }
+//            }
+//        }
+//
+//        if intArray[0] == "-" {
+//            resultArray.insert("-", at: 0)
+//        }
+//        print(resultArray)
+//
+//        if resultArray.count == 0 {
+//            return 0
+//        }
+//
+//        let result = Int(String(resultArray[0..<resultArray.count]))!
+//
+//        // 溢出处理
+//        if result > 2147483647 || result < -2147483648 {
+//            return 0
+//        }
+//
+//        return result
+//
+//    }
+//}
 
 // MARK: Zig Zag Conversion
 
