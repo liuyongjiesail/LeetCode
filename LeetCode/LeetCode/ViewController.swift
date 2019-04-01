@@ -13,115 +13,141 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().myAtoi("1095502006p8"))
+        print(Solution().isPalindrome(12345678))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: String to Integer (atoi)
+// MARK: Palindrome Number
 
 class Solution {
-    func myAtoi(_ str: String) -> Int {
+    func isPalindrome(_ x: Int) -> Bool {
         
-        var digitArray = Array<Character>()
-        var charArray = Array(str)
-        var resultArray = Array<Character>()
-        var isNegative = false
-        
-        // 空串处理
-        if str.count == 0 {
-            return 0
+        if x < 0 {
+            return false
         }
         
-        for i in 0..<10 {
-            digitArray.append("\(i)".characters.first!)
+        var reverse = 0
+        var mx = x
+        
+        while mx != 0 {
+            let pop = mx % 10
+            mx /= 10
+            if reverse > Int32.max {
+                return false
+            }
+            reverse = reverse * 10 + pop
         }
         
-        for i in 0..<charArray.count {
-            
-            let tempChar = charArray[i]
-            
-            if tempChar == " " {
-                if resultArray.count != 0 {
-                    break
-                }
-                continue
-            }
-            
-            if tempChar == "-" || tempChar == "+" {
-                if resultArray.count != 0 {
-                    break;
-                }
-                if i + 1 < charArray.count && !digitArray.contains(charArray[i+1]) {
-                    return 0
-                }
-                if resultArray.count == 0 && i + 1 < charArray.count && digitArray.contains(charArray[i+1]){
-                    if tempChar == "-" {
-                        isNegative = true
-                    } else {
-                        isNegative = false
-                    }
-                }
-                continue
-            } else {
-                if resultArray.count == 0 && !digitArray.contains(tempChar) {
-                    return 0
-                }
-            }
-            
-            if resultArray.count != 0 && tempChar != "-" && !digitArray.contains(tempChar)  {
-                break;
-            }
-            
-            if digitArray.contains(tempChar) {
-                if resultArray.count != 0 && Int(String(resultArray.first!)) == 0 {
-                    resultArray.remove(at: 0)
-                }
-                resultArray.append(tempChar)
-            }
-            
-        }
-        
-        if resultArray.count == 0 {
-            return 0
-        }
-        
-        print(resultArray)
-        var result = 0
-        
-        let numberStr = "2147483647"
-        let negativeStr = "2147483648"
-        
-        if resultArray.count > 10  {
-            return isNegative ? -2147483648 : 2147483647
-        } else if resultArray.count == 10 {
-            
-            var tempStr = String()
-            if isNegative {
-                tempStr = negativeStr
-            } else {
-                tempStr = numberStr
-            }
-            
-            print(tempStr)
-            
-            print(String(resultArray[0..<resultArray.count]))
-            
-            if tempStr < String(resultArray[0..<resultArray.count]) {
-                return isNegative ? -2147483648 : 2147483647
-            } else {
-                result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
-            }
-            
-        } else {
-            result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
-        }
-        
-        return result
+        return x == reverse ? true : false
         
     }
 }
+
+// MARK: String to Integer (atoi)
+
+//class Solution {
+//    func myAtoi(_ str: String) -> Int {
+//
+//        var digitArray = Array<Character>()
+//        var charArray = Array(str)
+//        var resultArray = Array<Character>()
+//        var isNegative = false
+//
+//        // 空串处理
+//        if str.count == 0 {
+//            return 0
+//        }
+//
+//        for i in 0..<10 {
+//            digitArray.append("\(i)".characters.first!)
+//        }
+//
+//        for i in 0..<charArray.count {
+//
+//            let tempChar = charArray[i]
+//
+//            if tempChar == " " {
+//                if resultArray.count != 0 {
+//                    break
+//                }
+//                continue
+//            }
+//
+//            if tempChar == "-" || tempChar == "+" {
+//                if resultArray.count != 0 {
+//                    break;
+//                }
+//                if i + 1 < charArray.count && !digitArray.contains(charArray[i+1]) {
+//                    return 0
+//                }
+//                if resultArray.count == 0 && i + 1 < charArray.count && digitArray.contains(charArray[i+1]){
+//                    if tempChar == "-" {
+//                        isNegative = true
+//                    } else {
+//                        isNegative = false
+//                    }
+//                }
+//                continue
+//            } else {
+//                if resultArray.count == 0 && !digitArray.contains(tempChar) {
+//                    return 0
+//                }
+//            }
+//
+//            if resultArray.count != 0 && tempChar != "-" && !digitArray.contains(tempChar)  {
+//                break;
+//            }
+//
+//            if digitArray.contains(tempChar) {
+//                if resultArray.count != 0 && Int(String(resultArray.first!)) == 0 {
+//                    resultArray.remove(at: 0)
+//                }
+//                resultArray.append(tempChar)
+//            }
+//
+//        }
+//
+//        if resultArray.count == 0 {
+//            return 0
+//        }
+//
+//        print(resultArray)
+//        var result = 0
+//
+//        let numberStr = "2147483647"
+//        let negativeStr = "2147483648"
+//
+//        if resultArray.count > 10  {
+//            return isNegative ? -2147483648 : 2147483647
+//        } else if resultArray.count == 10 {
+//
+//            var tempStr = String()
+//            if isNegative {
+//                tempStr = negativeStr
+//            } else {
+//                tempStr = numberStr
+//            }
+//
+//            print(tempStr)
+//
+//            print(String(resultArray[0..<resultArray.count]))
+//
+//            if tempStr < String(resultArray[0..<resultArray.count]) {
+//                return isNegative ? -2147483648 : 2147483647
+//            } else {
+//                result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
+//            }
+//
+//        } else {
+//            result = Int((isNegative ? "-" : "") + String(resultArray[0..<resultArray.count]))!
+//        }
+//
+//        return result
+//
+//    }
+//}
 
 // MARK: Reverse Integer
 
