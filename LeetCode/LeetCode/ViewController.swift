@@ -13,37 +13,65 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().isPalindrome(12345678))
+        print(Solution().isMatch("mississippi", "mis*is*p*."))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: Palindrome Number
+// MARK: Regular Expression Matching
 
 class Solution {
-    func isPalindrome(_ x: Int) -> Bool {
+    func isMatch(_ s: String, _ p: String) -> Bool {
         
-        if x < 0 {
-            return false
+        var patternArray = Array(p)
+        var stringArray = Array(s)
+        
+        let patternCount = patternArray.count
+        let stringCount = stringArray.count
+        
+        print(patternArray)
+        print(stringArray)
+        
+        if patternCount == 0 {
+            return stringCount == 0
         }
-        
-        var reverse = 0
-        var mx = x
-        
-        while mx != 0 {
-            let pop = mx % 10
-            mx /= 10
-            if reverse > Int32.max {
-                return false
-            }
-            reverse = reverse * 10 + pop
+
+        let firstMatch = (stringCount != 0 && (patternArray[0] == stringArray[0] || patternArray[0] == "."));
+
+        if patternArray.count >= 2 && patternArray[1] == "*" {
+            return (isMatch(s, String(patternArray[2..<patternCount])) || (firstMatch && isMatch(String(stringArray[1..<stringCount]), p)))
+        } else {
+            return firstMatch && isMatch(String(stringArray[1..<stringCount]), String(patternArray[1..<patternCount]))
         }
-        
-        return x == reverse ? true : false
-        
     }
 }
+
+// MARK: Palindrome Number
+
+//class Solution {
+//    func isPalindrome(_ x: Int) -> Bool {
+//
+//        if x < 0 {
+//            return false
+//        }
+//
+//        var reverse = 0
+//        var mx = x
+//
+//        while mx != 0 {
+//            let pop = mx % 10
+//            mx /= 10
+//            if reverse > Int32.max {
+//                return false
+//            }
+//            reverse = reverse * 10 + pop
+//        }
+//
+//        return x == reverse ? true : false
+//
+//    }
+//}
 
 // MARK: String to Integer (atoi)
 
