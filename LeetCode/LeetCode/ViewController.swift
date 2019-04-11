@@ -13,39 +13,56 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().isMatch("mississippi", "mis*is*p*."))
+        print(Solution().maxArea([1,8,6,2,5,4,8,3,7]))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: Regular Expression Matching
+// MARK: Container With Most Water
 
 class Solution {
-    func isMatch(_ s: String, _ p: String) -> Bool {
+    func maxArea(_ height: [Int]) -> Int {
         
-        var patternArray = Array(p)
-        var stringArray = Array(s)
-        
-        let patternCount = patternArray.count
-        let stringCount = stringArray.count
-        
-        print(patternArray)
-        print(stringArray)
-        
-        if patternCount == 0 {
-            return stringCount == 0
+        var maxArea = 0
+        for i in 0..<(height.count - 1) {
+            for j in i+1..<height.count {
+                maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+            }
         }
-
-        let firstMatch = (stringCount != 0 && (patternArray[0] == stringArray[0] || patternArray[0] == "."));
-
-        if patternArray.count >= 2 && patternArray[1] == "*" {
-            return (isMatch(s, String(patternArray[2..<patternCount])) || (firstMatch && isMatch(String(stringArray[1..<stringCount]), p)))
-        } else {
-            return firstMatch && isMatch(String(stringArray[1..<stringCount]), String(patternArray[1..<patternCount]))
-        }
+        
+        return maxArea
     }
 }
+
+// MARK: Regular Expression Matching
+
+//
+//class Solution {
+//    func isMatch(_ s: String, _ p: String) -> Bool {
+//
+//        var patternArray = Array(p)
+//        var stringArray = Array(s)
+//
+//        let patternCount = patternArray.count
+//        let stringCount = stringArray.count
+//
+//        print(patternArray)
+//        print(stringArray)
+//
+//        if patternCount == 0 {
+//            return stringCount == 0
+//        }
+//
+//        let firstMatch = (stringCount != 0 && (patternArray[0] == stringArray[0] || patternArray[0] == "."));
+//
+//        if patternArray.count >= 2 && patternArray[1] == "*" {
+//            return (isMatch(s, String(patternArray[2..<patternCount])) || (firstMatch && isMatch(String(stringArray[1..<stringCount]), p)))
+//        } else {
+//            return firstMatch && isMatch(String(stringArray[1..<stringCount]), String(patternArray[1..<patternCount]))
+//        }
+//    }
+//}
 
 // MARK: Palindrome Number
 
