@@ -25,15 +25,35 @@ class Solution {
     func maxArea(_ height: [Int]) -> Int {
         
         var maxArea = 0
-        for i in 0..<(height.count - 1) {
-            for j in i+1..<height.count {
-                maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+        var i = 0
+        var j = height.count - 1
+        
+        while j > i {
+            maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+            if height[i] < height[j] {
+                i = i + 1
+            } else {
+                j = j - 1
             }
         }
         
         return maxArea
     }
 }
+
+//class Solution {
+//    func maxArea(_ height: [Int]) -> Int {
+//
+//        var maxArea = 0
+//        for i in 0..<(height.count - 1) {
+//            for j in i+1..<height.count {
+//                maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+//            }
+//        }
+//
+//        return maxArea
+//    }
+//}
 
 // MARK: Regular Expression Matching
 

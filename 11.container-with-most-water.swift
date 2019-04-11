@@ -38,6 +38,43 @@
  */
 
  /*
+  时间复杂度为O(n)
+  这个相当于遍历了2个1/2的 n, 也就是 n 
+
+  思路
+
+  从两边开始，一直往中心走。条件是左边的index位置小于右边的index位置
+  左边的数字小，向右移动一位
+  右边的数字小，向左移动一位
+
+✔ Accepted
+  ✔ 50/50 cases passed (100 ms)
+  ✔ Your runtime beats 100 % of swift submissions
+  ✔ Your memory usage beats 43.48 % of swift submissions (19.1 MB)
+
+ */
+
+ class Solution {
+    func maxArea(_ height: [Int]) -> Int {
+        
+        var maxArea = 0
+        var i = 0
+        var j = height.count - 1
+        
+        while i < j {
+            maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+            if height[i] < height[j] {
+                i = i + 1
+            } else {
+                j = j - 1
+            }
+        }
+        
+        return maxArea
+    }
+}
+
+ /*
 
   时间复杂度度 O(n^2)
 
@@ -49,6 +86,7 @@
   ✘ stdout:
 
  */
+ /*
 class Solution {
     func maxArea(_ height: [Int]) -> Int {
         
@@ -62,4 +100,4 @@ class Solution {
         return maxArea
     }
 }
-
+*/
