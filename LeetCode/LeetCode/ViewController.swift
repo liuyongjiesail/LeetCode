@@ -13,33 +13,54 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().maxArea([1,8,6,2,5,4,8,3,7]))
+        print(Solution().intToRoman(1994))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: Container With Most Water
+// MARK: Integer to Roman
 
 class Solution {
-    func maxArea(_ height: [Int]) -> Int {
+    func intToRoman(_ num: Int) -> String {
         
-        var maxArea = 0
-        var i = 0
-        var j = height.count - 1
+        var intArray = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+        var romanArray = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+        var resultString = String()
+        var number = num
         
-        while j > i {
-            maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
-            if height[i] < height[j] {
-                i = i + 1
-            } else {
-                j = j - 1
+        for i in 0..<intArray.count {
+            while number >=  intArray[i] {
+                number = number - intArray[i]
+                resultString.append(romanArray[i])
             }
         }
         
-        return maxArea
+        return resultString;
     }
 }
+
+// MARK: Container With Most Water
+
+//class Solution {
+//    func maxArea(_ height: [Int]) -> Int {
+//
+//        var maxArea = 0
+//        var i = 0
+//        var j = height.count - 1
+//
+//        while j > i {
+//            maxArea = max(maxArea, min(height[i], height[j]) * (j - i))
+//            if height[i] < height[j] {
+//                i = i + 1
+//            } else {
+//                j = j - 1
+//            }
+//        }
+//
+//        return maxArea
+//    }
+//}
 
 //class Solution {
 //    func maxArea(_ height: [Int]) -> Int {
