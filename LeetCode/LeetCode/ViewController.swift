@@ -13,32 +13,72 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().intToRoman(1994))
+        print(Solution().romanToInt("MCMXCIV"))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: Integer to Roman
+// MARK: Roman to Integer
 
 class Solution {
-    func intToRoman(_ num: Int) -> String {
+    func romanToInt(_ s: String) -> Int {
         
-        var intArray = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-        var romanArray = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
-        var resultString = String()
-        var number = num
+        var result = 0
+        let romanDictionary = self.romanDictionary()
         
-        for i in 0..<intArray.count {
-            while number >=  intArray[i] {
-                number = number - intArray[i]
-                resultString.append(romanArray[i])
+        let stringArray = Array(s)
+        
+        for i in 0..<stringArray.count {
+            
+            let currentString:String = String(stringArray[i])
+            var frontString:String = String()
+            if i != 0 {
+                frontString = String(stringArray[i-1])
+            }
+            
+            if i == 0 || romanDictionary[currentString]! <= romanDictionary[frontString]! {
+                result = result + romanDictionary[currentString]!
+            } else {
+                result = result + romanDictionary[currentString]! - 2 * romanDictionary[frontString]!;
             }
         }
         
-        return resultString;
+        return result;
+    }
+    
+    func romanDictionary() -> Dictionary<String, Int> {
+        return ["I" : 1,
+                "V" : 5,
+                "X" : 10,
+                "L" : 50,
+                "C" : 100,
+                "D" : 500,
+                "M" : 1000
+        ]
     }
 }
+
+// MARK: Integer to Roman
+
+//class Solution {
+//    func intToRoman(_ num: Int) -> String {
+//
+//        var intArray = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+//        var romanArray = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+//        var resultString = String()
+//        var number = num
+//
+//        for i in 0..<intArray.count {
+//            while number >=  intArray[i] {
+//                number = number - intArray[i]
+//                resultString.append(romanArray[i])
+//            }
+//        }
+//
+//        return resultString;
+//    }
+//}
 
 // MARK: Container With Most Water
 
