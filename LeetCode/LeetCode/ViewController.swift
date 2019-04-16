@@ -13,51 +13,79 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Solution().romanToInt("MCMXCIV"))
+        print(Solution().longestCommonPrefix(["ab", "a", "ac"]))
         // Do any additional setup after loading the view, typically from a nib.
     }
 
 }
 
-// MARK: Roman to Integer
+// MARK: Longest Common Prefix
 
 class Solution {
-    func romanToInt(_ s: String) -> Int {
+    func longestCommonPrefix(_ strs: [String]) -> String {
         
-        var result = 0
-        let romanDictionary = self.romanDictionary()
+        var commonPrefix = String()
         
-        let stringArray = Array(s)
-        
-        for i in 0..<stringArray.count {
-            
-            let currentString:String = String(stringArray[i])
-            var frontString:String = String()
-            if i != 0 {
-                frontString = String(stringArray[i-1])
-            }
-            
-            if i == 0 || romanDictionary[currentString]! <= romanDictionary[frontString]! {
-                result = result + romanDictionary[currentString]!
-            } else {
-                result = result + romanDictionary[currentString]! - 2 * romanDictionary[frontString]!;
-            }
+        if strs.count == 0 {
+            return commonPrefix
         }
         
-        return result;
-    }
-    
-    func romanDictionary() -> Dictionary<String, Int> {
-        return ["I" : 1,
-                "V" : 5,
-                "X" : 10,
-                "L" : 50,
-                "C" : 100,
-                "D" : 500,
-                "M" : 1000
-        ]
+        let firstStringArray = Array(strs.first!)
+        
+        for i in 0..<firstStringArray.count {
+            for j in 0..<strs.count {
+                let stringArray = Array(strs[j])
+                if i >= stringArray.count || firstStringArray[i] != stringArray[i] {
+                    return commonPrefix
+                }
+            }
+            commonPrefix.append(firstStringArray[i])
+        }
+        
+        return commonPrefix
+        
     }
 }
+
+// MARK: Roman to Integer
+
+//class Solution {
+//    func romanToInt(_ s: String) -> Int {
+//
+//        var result = 0
+//        let romanDictionary = self.romanDictionary()
+//
+//        let stringArray = Array(s)
+//
+//        for i in 0..<stringArray.count {
+//
+//            let currentString:String = String(stringArray[i])
+//            var frontString:String = String()
+//            if i != 0 {
+//                frontString = String(stringArray[i-1])
+//            }
+//
+//            if i == 0 || romanDictionary[currentString]! <= romanDictionary[frontString]! {
+//                result = result + romanDictionary[currentString]!
+//            } else {
+//                result = result + romanDictionary[currentString]! - 2 * romanDictionary[frontString]!;
+//            }
+//        }
+//
+//        return result;
+//    }
+//
+//    func romanDictionary() -> Dictionary<String, Int> {
+//        return ["I" : 1,
+//                "V" : 5,
+//                "X" : 10,
+//                "L" : 50,
+//                "C" : 100,
+//                "D" : 500,
+//                "M" : 1000
+//        ]
+//    }
+//}
 
 // MARK: Integer to Roman
 
