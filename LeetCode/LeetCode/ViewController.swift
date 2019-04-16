@@ -23,29 +23,67 @@ class ViewController: UIViewController {
 
 class Solution {
     func longestCommonPrefix(_ strs: [String]) -> String {
-        
-        var commonPrefix = String()
-        
         if strs.count == 0 {
-            return commonPrefix
+            return ""
         }
-        
-        let firstStringArray = Array(strs.first!)
-        
-        for i in 0..<firstStringArray.count {
-            for j in 0..<strs.count {
-                let stringArray = Array(strs[j])
-                if i >= stringArray.count || firstStringArray[i] != stringArray[i] {
-                    return commonPrefix
-                }
-            }
-            commonPrefix.append(firstStringArray[i])
-        }
-        
-        return commonPrefix
-        
+        return self.longestCommonPrefix(strs, 0, strs.count - 1)
     }
+    
+    func longestCommonPrefix(_ strs:[String], _ i:Int, _ j:Int) -> String {
+        
+        if i == j {
+            return strs[i]
+        } else {
+            let mid = (i+j)/2;
+            let left = self.longestCommonPrefix(strs, i, mid)
+            let right = self.longestCommonPrefix(strs, mid + 1, j)
+            return commonPrefix(left, right)
+        }
+    }
+    
+    func commonPrefix(_ left:String, _ right:String) -> String {
+        
+        var leftArray = Array(left)
+        var rightArray = Array(right)
+        
+        let minNumber = min(leftArray.count, rightArray.count)
+        
+        for i in 0..<minNumber {
+            if leftArray[i] != rightArray[i] {
+                return String(leftArray[0..<i])
+            }
+        }
+        
+        return String(leftArray[0..<minNumber])
+    }
+    
 }
+
+//class Solution {
+//    func longestCommonPrefix(_ strs: [String]) -> String {
+//
+//        var commonPrefix = String()
+//
+//        if strs.count == 0 {
+//            return commonPrefix
+//        }
+//
+//        let firstStringArray = Array(strs.first!)
+//
+//        for i in 0..<firstStringArray.count {
+//            for j in 0..<strs.count {
+//                let stringArray = Array(strs[j])
+//                if i >= stringArray.count || firstStringArray[i] != stringArray[i] {
+//                    return commonPrefix
+//                }
+//            }
+//            commonPrefix.append(firstStringArray[i])
+//        }
+//
+//        return commonPrefix
+//
+//    }
+//}
 
 // MARK: Roman to Integer
 

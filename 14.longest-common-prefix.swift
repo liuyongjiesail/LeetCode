@@ -39,6 +39,59 @@
 
  /*
 
+   分而治之，分治法，一分为二判断
+
+   O(m*logn)
+
+   两两比较得结果
+   
+   ✔ Accepted
+  ✔ 118/118 cases passed (28 ms)
+  ✔ Your runtime beats 64.07 % of swift submissions
+  ✔ Your memory usage beats 8.89 % of swift submissions (20.2 MB)
+
+ */
+
+ class Solution {
+    func longestCommonPrefix(_ strs: [String]) -> String {
+        if strs.count == 0 {
+            return ""
+        }
+        return self.longestCommonPrefix(strs, 0, strs.count - 1)
+    }
+    
+    func longestCommonPrefix(_ strs:[String], _ i:Int, _ j:Int) -> String {
+        
+        if i == j {
+            return strs[i]
+        } else {
+            let mid = (i+j)/2;
+            let left = self.longestCommonPrefix(strs, i, mid)
+            let right = self.longestCommonPrefix(strs, mid + 1, j)
+            return commonPrefix(left, right)
+        }
+    }
+    
+    func commonPrefix(_ left:String, _ right:String) -> String {
+        
+        var leftArray = Array(left)
+        var rightArray = Array(right)
+        
+        let minNumber = min(leftArray.count, rightArray.count)
+        
+        for i in 0..<minNumber {
+            if leftArray[i] != rightArray[i] {
+                return String(leftArray[0..<i])
+            }
+        }
+        
+        return String(leftArray[0..<minNumber])
+    }
+    
+}
+
+ /*
+
    两个for循环
    O(n^2)
 
@@ -50,6 +103,7 @@
   ✔ Your memory usage beats 8.89 % of swift submissions (20.2 MB)
 
  */
+ /*
 class Solution {
     func longestCommonPrefix(_ strs: [String]) -> String {
         
@@ -75,4 +129,4 @@ class Solution {
         
     }
 }
-
+*/
