@@ -5,6 +5,7 @@
 ## Build generated
 build/
 DerivedData/
+LeetCode/
 
 ## Various settings
 *.pbxuser
