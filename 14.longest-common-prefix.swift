@@ -36,12 +36,65 @@
  * All given inputs are in lowercase letters a-z.
  * 
  */
+/*
+
+  二分查找 Binary search （logn）
+
+  思路：
+  1. 找出最短的字符串长度
+  2. 初始low = 1, high = 最短长度；长度一分为二，判断低位 0~middle 
+  3. 拿第一个字符串的低位与后面的字符串低位一一比较，包含则让低位+1，否则让高位-1，直到 low>high停止比较
+  4. String(Array(strs[0])[0..<(low + high)/2]) 拿结果
+  
+  ✔ Accepted
+  ✔ 118/118 cases passed (20 ms)
+  ✔ Your runtime beats 89.58 % of swift submissions
+  ✔ Your memory usage beats 31.11 % of swift submissions (19.7 MB)
+
+*/
+ class Solution {
+    func longestCommonPrefix(_ strs: [String]) -> String {
+        
+        if strs.count == 0 {
+            return ""
+        }
+        
+        var minLen:Int = Int(INT32_MAX)
+        for string in strs {
+            minLen = min(minLen, string.count)
+        }
+        
+        var low:Int = 1
+        var high:Int = minLen
+        while low <= high {
+            let middle = (low + high)/2
+            if self.isCommonPrefix(strs, middle) {
+                low = middle + 1
+            } else {
+                high = middle - 1
+            }
+        }
+        return String(Array(strs[0])[0..<(low + high)/2])
+    }
+    
+    func isCommonPrefix(_ strs: [String], _ len:Int) -> Bool {
+        
+        let str1 = String(Array(strs[0])[0..<len])
+        for i in 1..<strs.count {
+            if !strs[i].hasPrefix(str1) {
+                return false
+            }
+        }
+        return true
+    }
+    
+}
 
  /*
 
    分而治之，分治法，一分为二判断
 
-   O(m*logn)
+   O(m)
 
    两两比较得结果
    
@@ -51,7 +104,7 @@
   ✔ Your memory usage beats 8.89 % of swift submissions (20.2 MB)
 
  */
-
+/*
  class Solution {
     func longestCommonPrefix(_ strs: [String]) -> String {
         if strs.count == 0 {
@@ -89,7 +142,7 @@
     }
     
 }
-
+*/
  /*
 
    两个for循环
