@@ -35,10 +35,70 @@
 
  /*
 
+  思路：
+
+  先对数组进行升序的排序
+
+  O(n^2)
+
+  n 是外循环 里面从index到最后为n 
+
+  从两边向中心递进方式，index + 1 到 最后 的元素相加是否等于 当前index 元素，小于了，就让低位+1，否则就让高位减一
+  注意过滤掉前后相等的元素
+
+✔ Accepted
+  ✔ 313/313 cases passed (212 ms)
+  ✔ Your runtime beats 88.1 % of swift submissions
+  ✔ Your memory usage beats 13.12 % of swift submissions (22.9 MB)
+
+ */
+
+ class Solution {
+
+    func threeSum(_ nums: [Int]) -> [[Int]] {
+        
+        var resultArray = Array<Array<Int>>()
+        
+        var nums = nums.sorted()
+        
+        for (index, _) in nums.enumerated() {
+            if index > 0 && nums[index] == nums[index - 1] {
+                continue
+            }
+            let sum = -nums[index]
+            var lo = index + 1
+            var hi = nums.count - 1
+            while lo < hi {
+                if nums[lo] + nums[hi] == sum {
+                    resultArray.append([nums[index], nums[lo], nums[hi]])
+                    while lo < hi && nums[lo] == nums[lo + 1] {
+                        lo = lo + 1
+                    }
+                    while lo < hi && nums[hi] == nums[hi - 1] {
+                        hi = hi - 1
+                    }
+                    lo = lo + 1
+                    hi = hi - 1
+                } else if nums[lo] + nums[hi] < sum {
+                    lo = lo + 1
+                } else {
+                    hi = hi - 1
+                }
+            }
+            
+        }
+        
+        return resultArray
+    }
+}
+
+ /*
+
   ✘ Time Limit Exceeded
   ✘ 311/313 cases passed (N/A)
-  
+
  */
+ /*
 class Solution {
     
     func threeSum(_ nums: [Int]) -> [[Int]] {
@@ -75,4 +135,4 @@ class Solution {
         return result
     }
 }
-
+*/
