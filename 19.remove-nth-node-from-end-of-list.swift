@@ -44,6 +44,56 @@
  * }
  */
 
+ /*
+
+ 思路：利用快慢指针方式
+
+ ✔ Accepted
+  ✔ 208/208 cases passed (12 ms)
+  ✔ Your runtime beats 79.19 % of swift submissions
+  ✔ Your memory usage beats 51.35 % of swift submissions (18.7 MB)
+
+ */
+
+ class Solution {
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        
+        let dummy = ListNode(0)
+        dummy.next = head
+        
+        var fast:ListNode? = dummy
+        var slow:ListNode? = dummy
+        
+        for _ in 0..<(n+1) {
+            fast = fast?.next
+        }
+        
+        while fast != nil {
+            fast = fast?.next
+            slow = slow?.next
+        }
+        
+        slow?.next = slow?.next?.next
+        
+        return dummy.next
+    }
+    
+}
+
+ /*
+
+✔ Accepted
+  ✔ 208/208 cases passed (20 ms)
+  ✔ Your runtime beats 8.6 % of swift submissions
+  ✔ Your memory usage beats 24.32 % of swift submissions (18.8 MB)
+
+  思路：
+  1. 算出链表的长度
+  2. 长度减去n就是倒数第几个
+  3. 让倒数这个链表值指向下一个的下一个就可以了
+
+ */
+/*
 class Solution {
     func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         
@@ -71,4 +121,4 @@ class Solution {
     }
     
 }
-
+*/
